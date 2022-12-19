@@ -4,6 +4,13 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 void main() {
   runApp(const MyApp());
+  doWhenWindowReady(() {
+    const initialSize = Size(600, 450);
+    appWindow.size = initialSize;
+    appWindow.minSize = initialSize;
+    appWindow.title = 'Restlist POS';
+    appWindow.show();
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('ar', ''),
+      // locale: const Locale('ar', ''),
       home: const MyHomePage(),
     );
   }
@@ -32,16 +39,16 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.expand(
+      body: WindowBorder(
+        width: 1,
+        color: Colors.grey.shade300,
         child: Column(
           children: [
             WindowTitleBarBox(
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      color: Colors.pink,
-                    ),
+                    child: MoveWindow(),
                   ),
                   const WindowButtons()
                 ],
@@ -66,10 +73,18 @@ class WindowButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        MinimizeWindowButton(),
+        MinimizeWindowButton(
+          colors: ButtonColors.mainColors,
+        ),
         MaximizeWindowButton(),
         CloseWindowButton(),
       ],
     );
   }
+}
+
+class ButtonColors {
+  ButtonColors._();
+
+  static WindowButtonColors mainColors = WindowButtonColors();
 }
