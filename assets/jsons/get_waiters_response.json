@@ -1,0 +1,112 @@
+{
+    "data": [
+        {
+            "id": 179,
+            "full_name": "new staff 01",
+            "email": "staff.01@test.com",
+            "role": "waiter",
+            "is_active": 1,
+            "email_verified_at": "2022-10-16T10:17:39.000000Z",
+            "plan": "",
+            "subscription": null,
+            "tables": [],
+            "profile_image": null,
+            "is_notify": 1,
+            "default_language": null,
+            "default_currency": null
+        },
+        {
+            "id": 180,
+            "full_name": "new staff",
+            "email": "staff.02@test.com",
+            "role": "waiter",
+            "is_active": 1,
+            "email_verified_at": "2022-10-16T11:13:30.000000Z",
+            "plan": "",
+            "subscription": null,
+            "tables": [
+                {
+                    "id": 2,
+                    "name": "table 2"
+                },
+                {
+                    "id": 3,
+                    "name": "table 3"
+                },
+                {
+                    "id": 5,
+                    "name": "table 3"
+                },
+                {
+                    "id": 13,
+                    "name": "test"
+                },
+                {
+                    "id": 14,
+                    "name": "test 2"
+                }
+            ],
+            "profile_image": null,
+            "is_notify": 1,
+            "default_language": null,
+            "default_currency": null
+        },
+        {
+            "id": 184,
+            "full_name": "user 01",
+            "email": "test0002@test.com",
+            "role": "waiter",
+            "is_active": 1,
+            "email_verified_at": "2022-10-18T11:37:56.000000Z",
+            "plan": "",
+            "subscription": null,
+            "tables": [],
+            "profile_image": null,
+            "is_notify": 1,
+            "default_language": null,
+            "default_currency": null
+        },
+        {
+            "id": 195,
+            "full_name": "test 0002",
+            "email": "t0002@t.com",
+            "role": "waiter",
+            "is_active": 1,
+            "email_verified_at": "2022-11-23T10:32:21.000000Z",
+            "plan": "",
+            "subscription": null,
+            "tables": [],
+            "profile_image": null,
+            "is_notify": 1,
+            "default_language": null,
+            "default_currency": null
+        },
+        {
+            "id": 196,
+            "full_name": "t0003",
+            "email": "t0003@t.com",
+            "role": "waiter",
+            "is_active": 1,
+            "email_verified_at": "2022-11-23T10:33:43.000000Z",
+            "plan": "",
+            "subscription": null,
+            "tables": [],
+            "profile_image": null,
+            "is_notify": 1,
+            "default_language": null,
+            "default_currency": null
+        }
+    ],
+    "status": true,
+    "message": null,
+    "code": 200,
+    "paginate": {
+        "currentPage": 1,
+        "from": 1,
+        "to": 5,
+        "total": 5,
+        "total_pages": 1,
+        "per_page": 10
+    },
+    "whatsapp_message": null
+}

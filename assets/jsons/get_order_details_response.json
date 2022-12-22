@@ -1,0 +1,124 @@
+{
+    "data": {
+        "id": 196,
+        "order_number": "12",
+        "uuid": "001cf206-c8ac-4779-955a-379a75c4310f",
+        "status": "preparing",
+        "tax_amount": 13.31,
+        "sub_total": 55.2,
+        "total": 68.51,
+        "table_id": 31,
+        "table_name": "r",
+        "restaurant_id": 18,
+        "staff_id": null,
+        "is_read": 0,
+        "staff_name": null,
+        "order_details": [
+            {
+                "id": 706,
+                "order_id": 196,
+                "product_id": 136,
+                "product_name": "Coffee",
+                "product_size": "Beaker",
+                "quantity": 3,
+                "price": 9.2,
+                "status": "preparing",
+                "note": [],
+                "is_read": 0,
+                "created_at": "2022-12-20T07:44:33.000000Z",
+                "updated_at": "2022-12-20T07:44:33.000000Z",
+                "category_name": "Hot Drinks",
+                "parent_category_name": "Drinks"
+            },
+            {
+                "id": 707,
+                "order_id": 196,
+                "product_id": 136,
+                "product_name": "Coffee",
+                "product_size": "Beaker",
+                "quantity": 3,
+                "price": 9.2,
+                "status": "preparing",
+                "note": [],
+                "is_read": 0,
+                "created_at": "2022-12-20T07:44:38.000000Z",
+                "updated_at": "2022-12-20T07:44:38.000000Z",
+                "category_name": "Hot Drinks",
+                "parent_category_name": "Drinks"
+            }
+        ],
+        "notes": [
+            {
+                "id": 139,
+                "note": "dd",
+                "order_id": 196,
+                "is_read": 0,
+                "created_at": "2022-12-20T07:44:33.000000Z",
+                "updated_at": "2022-12-20T07:44:33.000000Z"
+            },
+            {
+                "id": 140,
+                "note": "dd",
+                "order_id": 196,
+                "is_read": 0,
+                "created_at": "2022-12-20T07:44:38.000000Z",
+                "updated_at": "2022-12-20T07:44:38.000000Z"
+            }
+        ],
+        "taxes": [
+            {
+                "id": 8,
+                "name": "",
+                "type": "percentage",
+                "value": 8
+            },
+            {
+                "id": 9,
+                "name": "dsf",
+                "type": "percentage",
+                "value": 2
+            },
+            {
+                "id": 10,
+                "name": "dsf",
+                "type": "percentage",
+                "value": 2
+            },
+            {
+                "id": 12,
+                "name": "new tax",
+                "type": "amount",
+                "value": 10
+            }
+        ],
+        "statuses": [
+            {
+                "id": 685,
+                "status": "ordered",
+                "staff_id": null,
+                "order_id": 196,
+                "created_at": "20/12/2022 - 07:44 AM",
+                "updated_at": "20/12/2022 - 07:44 AM",
+                "staff": "restaurant"
+            },
+            {
+                "id": 686,
+                "status": "ordered",
+                "staff_id": null,
+                "order_id": 196,
+                "created_at": "20/12/2022 - 07:44 AM",
+                "updated_at": "20/12/2022 - 07:44 AM",
+                "staff": "restaurant"
+            }
+        ],
+        "created_at": "20/12/2022 - 07:44 AM",
+        "updated_at": "20/12/2022 - 07:44 AM",
+        "created_at2": "22 hours ago",
+        "updated_at2": "2022-12-20T07:44:38.000000Z"
+    },
+    "status": true,
+    "message": null,
+    "code": 201,
+    "paginate": null,
+    "whatsapp_message": null
+}

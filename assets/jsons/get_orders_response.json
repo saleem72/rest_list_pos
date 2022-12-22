@@ -1,0 +1,96 @@
+{
+    "data": [
+        {
+            "id": 195,
+            "order_number": "11",
+            "uuid": "94f48050-caf7-49df-9d0d-b797733f36b2",
+            "status": "preparing",
+            "tax_amount": 1.34,
+            "sub_total": 26.4,
+            "total": 27.74,
+            "table_id": 31,
+            "table_name": "r",
+            "restaurant_id": 18,
+            "staff_id": null,
+            "is_read": 0,
+            "staff_name": null,
+            "notes": [],
+            "taxes": [
+                {
+                    "id": 8,
+                    "name": "",
+                    "type": "percentage",
+                    "value": 8
+                },
+                {
+                    "id": 9,
+                    "name": "dsf",
+                    "type": "percentage",
+                    "value": 2
+                },
+                {
+                    "id": 10,
+                    "name": "dsf",
+                    "type": "percentage",
+                    "value": 2
+                }
+            ],
+            "created_at": "13/12/2022 - 12:15 PM",
+            "updated_at": "13/12/2022 - 12:22 PM",
+            "created_at2": "5 days ago",
+            "updated_at2": "2022-12-13T12:22:32.000000Z"
+        },
+        {
+            "id": 191,
+            "order_number": "10",
+            "uuid": "1cf5e579-aa0e-4c0f-b390-f6947a99742e",
+            "status": "closed",
+            "tax_amount": 0.72,
+            "sub_total": 6,
+            "total": 6.72,
+            "table_id": 5,
+            "table_name": "table 3",
+            "restaurant_id": 18,
+            "staff_id": null,
+            "is_read": 0,
+            "staff_name": null,
+            "notes": [],
+            "taxes": [
+                {
+                    "id": 8,
+                    "name": "",
+                    "type": "percentage",
+                    "value": 8
+                },
+                {
+                    "id": 9,
+                    "name": "dsf",
+                    "type": "percentage",
+                    "value": 2
+                },
+                {
+                    "id": 10,
+                    "name": "dsf",
+                    "type": "percentage",
+                    "value": 2
+                }
+            ],
+            "created_at": "07/12/2022 - 08:00 AM",
+            "updated_at": "07/12/2022 - 12:38 PM",
+            "created_at2": "1 week ago",
+            "updated_at2": "2022-12-07T12:38:13.000000Z"
+        }
+    ],
+    "status": true,
+    "message": null,
+    "code": 200,
+    "paginate": {
+        "currentPage": 1,
+        "from": 1,
+        "to": 2,
+        "total": 2,
+        "total_pages": 1,
+        "per_page": 10
+    },
+    "whatsapp_message": null
+}
