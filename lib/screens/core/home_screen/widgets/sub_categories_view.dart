@@ -19,18 +19,25 @@ class SubCategoriesView extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              state.activeCatgory?.name ?? '',
-              style: Theme.of(context).textTheme.headline6,
-            ),
             SizedBox(
               height: 44,
               child: Row(
                 children: [
-                  CategoriesAddButton(
-                    onTap: () {},
+                  Container(
+                    padding: const EdgeInsets.only(right: 16),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: Pallet.darkAppBar,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      state.activeCatgory?.name ?? '',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
                   ),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: (state.activeCatgory != null) &&
                             (state.activeCatgory!.subcategories.isNotEmpty)

@@ -1,6 +1,7 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:rest_list_pos/helpers/styling/pallet.dart';
 
 import 'fade_in_icon.dart';
 
@@ -28,7 +29,7 @@ class NavBarButton extends StatelessWidget {
         decoration: const BoxDecoration(
           border: Border(
             right: BorderSide(
-              color: Color(0xFF707070),
+              color: Pallet.borders,
             ),
           ),
         ),

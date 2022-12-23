@@ -1,7 +1,6 @@
 //
 
 export 'app_nav_bar.dart';
-export 'gradient_button.dart';
 export 'connection_icon.dart';
 export 'app_text_field.dart';
 export 'corner_circle.dart';

@@ -2,69 +2,30 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../helpers/styling/styling.dart';
+import '../../../../../models/order.dart';
+import 'add_edit_order_butttons.dart';
+import 'add_edit_order_finance.dart';
+import 'add_edit_order_sloth.dart';
+import 'add_edit_order_summary.dart';
 
-class AddNewProductView extends StatelessWidget {
-  const AddNewProductView({super.key});
+class AddNewOrderView extends StatelessWidget {
+  const AddNewOrderView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        const SizedBox(height: 52),
-        Expanded(
-          flex: 2,
-          child: _detailsAddNewImage(),
+        // Select Table
+        const AddEditOrderSummary(),
+        const Expanded(
+          child: AddEditOrderSloth(),
         ),
-        Expanded(
-          flex: 3,
-          child: _scrollView(context),
-        ),
-        TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-          ),
-          child: const Text(
-            'Edit',
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ),
+        // finance Section
+        AddEditOrderFinance(order: OrderDummyData.details()),
         const SizedBox(height: 8),
+        const AddEditOrderButttons(),
       ],
-    );
-  }
-
-  Container _detailsAddNewImage() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.33,
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Pallet.background,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 34,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 

@@ -25,7 +25,7 @@ class MainCategoriesView extends StatelessWidget {
               Flexible(
                 child: Row(
                   children: [
-                    CategoriesAddButton(onTap: () {}),
+                    // CategoriesAddButton(onTap: () {}),
                     const SizedBox(width: 8),
                     Expanded(
                       child: state.categories.isNotEmpty
@@ -116,7 +116,7 @@ class MainCategoriesView extends StatelessWidget {
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
+          color: Pallet.secondBackground,
           borderRadius: BorderRadius.circular(9)),
       alignment: Alignment.center,
       child: Row(

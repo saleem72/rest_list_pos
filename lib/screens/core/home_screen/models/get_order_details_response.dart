@@ -5,12 +5,12 @@ import 'package:rest_list_pos/models/apis_related/api_reponse.dart';
 import 'package:rest_list_pos/models/apis_related/paginate.dart';
 import 'package:rest_list_pos/models/order.dart';
 
-class GetOrderDetailsResponse implements ApiReponse<Order> {
+class GetOrderDetailsResponse implements ApiReponse<AppOrder> {
   @override
   int code;
 
   @override
-  Order? data;
+  AppOrder? data;
 
   @override
   String? message;
@@ -47,7 +47,7 @@ class GetOrderDetailsResponse implements ApiReponse<Order> {
     final proList = map['data'];
     return GetOrderDetailsResponse(
       data: proList != null
-          ? Order.fromMap(proList as Map<String, dynamic>)
+          ? AppOrder.fromMap(proList as Map<String, dynamic>)
           : null,
       code: map['code'] as int,
       message: map['message'] as String?,

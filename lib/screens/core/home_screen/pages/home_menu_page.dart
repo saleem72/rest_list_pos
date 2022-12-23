@@ -12,35 +12,16 @@ class HomeMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              Text(
-                Translator.translation(context).menu,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: () {},
-                icon: Image.asset(Assets.edit),
-              ),
-            ],
-          ),
           Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: _leftSection(context),
-                ),
-                const SizedBox(width: 16),
-                const Expanded(
-                  flex: 1,
-                  child: MenuDetailsSectionView(),
-                ),
-              ],
-            ),
+            flex: 2,
+            child: _leftSection(context),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
+            flex: 1,
+            child: AddEditOrderView(),
           ),
         ],
       ),

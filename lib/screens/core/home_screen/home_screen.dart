@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../helpers/dashboard_bloc/dashboard_bloc.dart';
-import '../../../helpers/settings_cubit/settings_cubit.dart';
 import '../../../helpers/styling/styling.dart';
 import '../../../widgets/main_widgets.dart';
 import 'home_widgets.dart';
+import 'orders_bloc/orders_bloc.dart';
 import 'pages.dart';
 import 'pages/home_orders_page.dart';
 
@@ -17,7 +17,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsCubit(),
+      create: (context) => OrdersBloc(
+        dashboard: context.read<DashboardBloc>(),
+      ),
       child: const HomeScreenContent(),
     );
 
@@ -52,51 +54,123 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
         body: Stack(
           children: [
             Column(
-              children: [
-                _header(context),
-                if (_selectedPage == 0) const Expanded(child: HomeMenuPage()),
-                if (_selectedPage == 1) const Expanded(child: HomeOrdersPage()),
+              children: const [
+                HomeScreenHeader(),
+                // if (_selectedPage == 0) const Expanded(child: HomeMenuPage()),
+                // if (_selectedPage == 1) const Expanded(child: HomeOrdersPage()),
+                HomeActivePage(),
               ],
             ),
             LoadingView(isVisible: state.isLoading),
             const HomeFailureView(),
-            const OrderDetailsView(),
+            const PossibleOrderDetailsView(),
           ],
         ),
       ),
     );
   }
 
-  Container _header(BuildContext context) {
-    return Container(
-      height: 86,
-      // padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
-        color: Pallet.darkAppBar,
+  Widget _header(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) => Container(
+        height: 86,
+        // padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: const BoxDecoration(
+          color: Pallet.darkAppBar,
+        ),
+        child: Row(
+          children: [
+            NavBarButton(
+              label: 'POS',
+              icon: Assets.pos,
+              isActive: state.selectedPage == HomeSelectedPage.menu,
+              onPressed: () =>
+                  context.read<DashboardBloc>().add(DashboardGoToMenuPage()),
+            ),
+            NavBarButton(
+              icon: Assets.orders,
+              label: 'Orders ',
+              isActive: state.selectedPage == HomeSelectedPage.orders,
+              onPressed: () =>
+                  context.read<DashboardBloc>().add(DashboardGoToOrdersPage()),
+            ),
+          ],
+        ),
       ),
-      child: Row(
-        children: [
-          NavBarButton(
-            label: 'POS',
-            icon: Assets.pos,
-            isActive: _selectedPage == 0,
-            onPressed: () => _updateSelected(0),
-          ),
-          NavBarButton(
-            icon: Assets.orders,
-            label: 'Orders ',
-            isActive: _selectedPage == 1,
-            onPressed: () => _updateSelected(1),
-          ),
-        ],
+    );
+  }
+}
+
+class HomeActivePage extends StatelessWidget {
+  const HomeActivePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: BlocBuilder<DashboardBloc, DashboardState>(
+        builder: (context, state) {
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                        begin: const Offset(1.4, 0), end: const Offset(0, 0))
+                    .animate(animation),
+                child: child,
+              );
+            },
+            child: _buildChild(state.selectedPage),
+          );
+        },
       ),
     );
   }
 
-  _updateSelected(int newValue) {
-    setState(() {
-      _selectedPage = newValue;
-    });
-    print('view $_selectedPage, $newValue');
+  Widget _buildChild(HomeSelectedPage selection) {
+    switch (selection) {
+      case HomeSelectedPage.menu:
+        return const HomeMenuPage(key: ValueKey<String>('Menu_Page'));
+      case HomeSelectedPage.orders:
+        return const HomeOrdersPage(key: ValueKey('Orders_Page'));
+    }
+  }
+}
+
+class HomeScreenHeader extends StatelessWidget {
+  const HomeScreenHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) => Container(
+        height: 86,
+        // padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: const BoxDecoration(
+          color: Pallet.darkAppBar,
+        ),
+        child: Row(
+          children: [
+            NavBarButton(
+              label: 'POS',
+              icon: Assets.pos,
+              isActive: state.selectedPage == HomeSelectedPage.menu,
+              onPressed: () =>
+                  context.read<DashboardBloc>().add(DashboardGoToMenuPage()),
+            ),
+            NavBarButton(
+              icon: Assets.orders,
+              label: 'Orders ',
+              isActive: state.selectedPage == HomeSelectedPage.orders,
+              onPressed: () {
+                print('I am here');
+                context.read<DashboardBloc>().add(DashboardGoToOrdersPage());
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

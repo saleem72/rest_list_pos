@@ -88,3 +88,17 @@ class DashboardPreviousMainCategory extends DashboardEvent {}
 class DashboardNextSubCategory extends DashboardEvent {}
 
 class DashboardPreviousSubCategory extends DashboardEvent {}
+
+class DashboardGoToMenuPage extends DashboardEvent {}
+
+class DashboardGoToOrdersPage extends DashboardEvent {}
+
+class DashboardAddNewItem extends DashboardEvent {
+  final AppOrder order;
+  const DashboardAddNewItem({
+    required this.order,
+  });
+
+  @override
+  List<Object> get props => [order];
+}

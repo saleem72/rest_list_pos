@@ -1,13 +1,16 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_list_pos/helpers/formmaters.dart';
 import 'package:rest_list_pos/screens/core/home_screen/models/get_order_details_response.dart';
+import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 
 import '../../../../helpers/jsons.dart';
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/apis_related/base_service.dart';
 import '../../../../models/order.dart';
+import '../../../../models/order_status.dart';
 import '../models/get_orders_response.dart';
 
 class HomeOrdersPage extends StatelessWidget {
@@ -28,7 +31,8 @@ class HomeOrdersPage extends StatelessWidget {
             height: double.infinity,
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
             child: OrdersTable(
-                orders: Order.dummyData()..addAll(Order.dummyData())),
+                orders: OrderDummyData.dummyData()
+                  ..addAll(OrderDummyData.dummyData())),
           ),
         ),
       ],
@@ -99,7 +103,8 @@ class HomeOrdersPage extends StatelessWidget {
           JsonApiResponse.getOrdersDetailsResponse);
       final detailsResponse =
           GetOrderDetailsResponse.fromMap(jsonDetailsResponse);
-      final detailsResult = BaseService.handleResponse<Order>(detailsResponse);
+      final detailsResult =
+          BaseService.handleResponse<AppOrder>(detailsResponse);
       detailsResult.fold(
         (failure) {
           print(failure);
@@ -119,7 +124,7 @@ class HomeOrdersPage extends StatelessWidget {
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F5),
+          color: Pallet.secondBackground,
           borderRadius: BorderRadius.circular(9)),
       alignment: Alignment.center,
       child: Row(
@@ -243,12 +248,18 @@ class OrdersTableCellTitle extends StatelessWidget {
 }
 
 class OrdersTableActionCell extends StatelessWidget {
-  const OrdersTableActionCell({super.key});
-
+  const OrdersTableActionCell({
+    super.key,
+    required this.order,
+  });
+  final AppOrder order;
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () => context
+          .read<OrdersBloc>()
+          .add(OrdersBlocSetActiveOrder(order: order)),
+      splashRadius: 22,
       icon: SizedBox(
         height: 24,
         width: 24,
@@ -261,7 +272,7 @@ class OrdersTableActionCell extends StatelessWidget {
 class OrdersTable extends StatelessWidget {
   const OrdersTable({super.key, required this.orders});
 
-  final List<Order> orders;
+  final List<AppOrder> orders;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -317,7 +328,7 @@ class OrdersTable extends StatelessWidget {
     );
   }
 
-  TableRow rowForOrder(Order order) {
+  TableRow rowForOrder(AppOrder order) {
     return TableRow(
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
@@ -332,7 +343,7 @@ class OrdersTable extends StatelessWidget {
         OrdersTableCellTitle(
             label: Formatters.currencyFormater.format(order.total)),
         OrderStatusCell(status: order.status),
-        const OrdersTableActionCell(),
+        OrdersTableActionCell(order: order),
       ],
     );
   }

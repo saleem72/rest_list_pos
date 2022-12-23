@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../helpers/formmaters.dart';
-import '../../../../models/order.dart';
+import '../../../../../helpers/formmaters.dart';
+import '../../../../../models/order.dart';
 
-class OrderDetailsFinanceSection extends StatelessWidget {
-  const OrderDetailsFinanceSection({
+class AddEditOrderFinance extends StatelessWidget {
+  const AddEditOrderFinance({
     Key? key,
     required this.order,
   }) : super(key: key);
@@ -15,16 +15,19 @@ class OrderDetailsFinanceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          _subTotal(context),
-          const SizedBox(height: 8),
-          _tax(context),
-          const SizedBox(height: 8),
-          _total(context)
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          children: [
+            _subTotal(context),
+            const SizedBox(height: 8),
+            _tax(context),
+            const SizedBox(height: 8),
+            _total(context)
+          ],
+        ),
       ),
     );
   }

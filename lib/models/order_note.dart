@@ -4,7 +4,7 @@ class OrderNote extends Equatable {
   final int id;
   final String note;
   final int orderId;
-  final int isRead;
+  final bool isRead;
   final DateTime createdAt;
   final DateTime updatedAt;
   const OrderNote({
@@ -35,7 +35,7 @@ class OrderNote extends Equatable {
       id: map['id'] as int,
       note: map['note'] as String,
       orderId: map['order_id'] as int,
-      isRead: map['is_read'] as int,
+      isRead: (map['is_read'] as int) == 1,
       createdAt: DateTime.parse(map['created_at']),
       updatedAt: DateTime.parse(map['updated_at']),
     );

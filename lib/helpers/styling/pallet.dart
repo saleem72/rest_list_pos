@@ -3,12 +3,22 @@
 import 'package:flutter/material.dart';
 
 class Pallet {
+  Pallet._();
+
   static const primary = Color(0xFFE7A968);
 
   static final primarySwatch = primary.toMaterialColor();
   static const background = Color(0xFFEFEFEF);
   static const darkAppBar = Color(0xFF02030A);
   static const meduimDarkText = Color(0xFF5D5D5D);
+  static const cardColors = Color(0xFFF2F2F2);
+  static const red = Color(0xFFFF5F57);
+  static const grey = Color(0xFF8F8F8F);
+  static const green = Color(0xFF009964);
+  static const secondBackground = Color(0xFFF5F5F5);
+  static const borders = Color(0xFF707070);
+  static const textGrey = Color(0xFF8F8F8F);
+  static const cyan = Color(0xFF00B4CB);
 }
 
 extension _Material on Color {

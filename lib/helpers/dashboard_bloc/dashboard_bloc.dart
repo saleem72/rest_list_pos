@@ -7,6 +7,7 @@ import '../../../../models/product_category.dart';
 import '../../../../models/app_user/app_user.dart';
 import '../../../../models/restaurant/restaurant.dart';
 import '../../models/failure.dart';
+import '../../models/order.dart';
 import '../../models/requests_bodies/get_product_body.dart';
 import '../../screens/core/home_screen/repository/dashboard_repository.dart';
 
@@ -30,6 +31,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardPreviousMainCategory>(_onPreviousMainCategory);
     on<DashboardNextSubCategory>(_onNextSubCategory);
     on<DashboardPreviousSubCategory>(_onPreviousSubCategory);
+    on<DashboardGoToMenuPage>(_onGoToMenuPage);
+    on<DashboardGoToOrdersPage>(_onGoToOrdersPage);
+    on<DashboardAddNewItem>(_onAddNewItem);
   }
 
   final DashboardRepository repository;
@@ -176,5 +180,22 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final previousCategory = categories[idx - 1];
       add(DashBoardSetActiveSubCategory(category: previousCategory));
     }
+  }
+
+  _onGoToMenuPage(DashboardGoToMenuPage event, Emitter<DashboardState> emit) {
+    if (state.selectedPage != HomeSelectedPage.menu) {
+      emit(state.copyWith(selectedPage: HomeSelectedPage.menu));
+    }
+  }
+
+  _onGoToOrdersPage(
+      DashboardGoToOrdersPage event, Emitter<DashboardState> emit) {
+    if (state.selectedPage != HomeSelectedPage.orders) {
+      emit(state.copyWith(selectedPage: HomeSelectedPage.orders));
+    }
+  }
+
+  _onAddNewItem(DashboardAddNewItem event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(selectedPage: HomeSelectedPage.menu));
   }
 }

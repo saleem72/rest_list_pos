@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import '../../../../helpers/formmaters.dart';
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/order.dart';
-import '../../../../models/order/order_sub_status.dart';
+import '../../../../models/order_status.dart';
 
 class OrderDetailsDetailsSectionChild extends StatelessWidget {
   const OrderDetailsDetailsSectionChild({
     super.key,
     required this.order,
   });
-  final Order order;
+  final AppOrder order;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,31 +28,19 @@ class OrderDetailsDetailsSectionChild extends StatelessWidget {
               StatusProgress(
                 label: 'Ordered',
                 color: Pallet.darkAppBar,
-                steps: (order.statuses.where((element) =>
-                        element.status == OrderSubStatusType.ordered))
-                    .toList()
-                    .map((e) => Formatters.timePresenter.format(e.createdAt))
-                    .toList(),
+                steps: order.orderedTimes,
               ),
               const SizedBox(width: 16),
               StatusProgress(
                 label: 'Delivered',
                 color: OrderStatus.delivered.color,
-                steps: (order.statuses.where((element) =>
-                        element.status == OrderSubStatusType.delivered))
-                    .toList()
-                    .map((e) => Formatters.timePresenter.format(e.createdAt))
-                    .toList(),
+                steps: order.deliveredTimes,
               ),
               const SizedBox(width: 16),
               StatusProgress(
                 label: 'Closed',
                 color: OrderStatus.closed.color,
-                steps: (order.statuses.where((element) =>
-                        element.status == OrderSubStatusType.closed))
-                    .toList()
-                    .map((e) => Formatters.timePresenter.format(e.createdAt))
-                    .toList(),
+                steps: order.closedTimes,
               ),
             ],
           ),
@@ -65,7 +53,7 @@ class OrderDetailsDetailsSectionChild extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
+        color: Pallet.cardColors,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -76,7 +64,7 @@ class OrderDetailsDetailsSectionChild extends StatelessWidget {
               Text(
                 'Created By',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: const Color(0xFF8F8F8F),
+                      color: Pallet.textGrey,
                     ),
               ),
               Text(
@@ -95,7 +83,7 @@ class OrderDetailsDetailsSectionChild extends StatelessWidget {
               Text(
                 'Closed By',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: const Color(0xFF8F8F8F),
+                      color: Pallet.textGrey,
                     ),
               ),
               Text(
@@ -116,7 +104,7 @@ class OrderDetailsDetailsSectionChild extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
+        color: Pallet.cardColors,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -150,8 +138,7 @@ class StatusProgress extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: const Color(0xFFF2F2F2),
-            borderRadius: BorderRadius.circular(8)),
+            color: Pallet.cardColors, borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(
           vertical: 16,
         ),

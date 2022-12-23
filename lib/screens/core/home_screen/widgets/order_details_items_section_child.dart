@@ -12,7 +12,7 @@ class OrderDetailsItemsSectionChild extends StatelessWidget {
     super.key,
     required this.order,
   });
-  final Order order;
+  final AppOrder order;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,8 +35,7 @@ class OrderDetailsItemTile extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
-          borderRadius: BorderRadius.circular(8)),
+          color: Pallet.cardColors, borderRadius: BorderRadius.circular(8)),
       child: Column(
         children: [
           Row(
@@ -49,9 +48,7 @@ class OrderDetailsItemTile extends StatelessWidget {
                       text: item.productName,
                       style: style?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: item.isRead
-                            ? Pallet.darkAppBar
-                            : const Color(0xFF00B4CB),
+                        color: item.isRead ? Pallet.darkAppBar : Pallet.cyan,
                       ),
                     ),
                     TextSpan(

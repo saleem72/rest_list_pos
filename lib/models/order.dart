@@ -1,65 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:rest_list_pos/helpers/formmaters.dart';
 import 'package:rest_list_pos/models/order/order_item.dart';
 import 'package:rest_list_pos/models/order/order_sub_status.dart';
 import 'package:rest_list_pos/models/order_note.dart';
+import 'package:collection/collection.dart';
 
+import 'order_status.dart';
 import 'tax.dart';
 
-typedef OredersList = List<Order>;
+typedef OredersList = List<AppOrder>;
 
-enum OrderStatus {
-  closed,
-  preparing,
-  delivered,
-  canceled;
-
-  String get title {
-    switch (this) {
-      case OrderStatus.closed:
-        return 'Closed';
-      case OrderStatus.preparing:
-        return 'Preparing';
-      case OrderStatus.delivered:
-        return 'Delivered';
-      case OrderStatus.canceled:
-        return 'Canceled';
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case OrderStatus.closed:
-        return const Color(0xFFFF5F57);
-      case OrderStatus.preparing:
-        return const Color(0xFF8F8F8F);
-      case OrderStatus.delivered:
-        return const Color(0xFF009964);
-      case OrderStatus.canceled:
-        return const Color(0xFF02030A);
-    }
-  }
-
-  static OrderStatus fromString(String title) {
-    switch (title) {
-      case 'closed':
-        return OrderStatus.closed;
-      case 'preparing':
-        return OrderStatus.preparing;
-      case 'delivered':
-        return OrderStatus.delivered;
-      case 'canceled':
-        return OrderStatus.canceled;
-      default:
-        return OrderStatus.preparing;
-    }
-  }
-}
-
-class Order {
+class AppOrder {
   final int id;
   final String orderNumber;
   final String uuid;
@@ -81,7 +34,7 @@ class Order {
   final List<OrderNote> notes;
   final List<OrderItem> orderItems;
   final List<OrderSubStatus> statuses;
-  Order({
+  AppOrder({
     required this.id,
     required this.orderNumber,
     required this.uuid,
@@ -129,13 +82,13 @@ class Order {
     };
   }
 
-  factory Order.fromMap(Map<String, dynamic> map) {
+  factory AppOrder.fromMap(Map<String, dynamic> map) {
     final taxList = map['taxes'] as List<dynamic>?;
     final notesList = map['notes'] as List<dynamic>?;
     final itemsList = map['order_details'] as List<dynamic>?;
     final statusesList = map['statuses'] as List<dynamic>?;
 
-    return Order(
+    return AppOrder(
       id: map['id'] as int,
       orderNumber: map['order_number'] as String,
       uuid: map['uuid'] as String,
@@ -191,15 +144,70 @@ class Order {
 
   String toJson() => json.encode(toMap());
 
-  factory Order.fromJson(String source) =>
-      Order.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AppOrder.fromJson(String source) =>
+      AppOrder.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
     return 'Order(orderNumber: $orderNumber, status: $status, tableName: $tableName)';
   }
+}
 
-  static List<Order> dummyData() {
+extension OrderCalculatedProps on AppOrder {
+  String get notesTitle {
+    if (notes.isNotEmpty) {
+      return 'General Notes x ${notes.length.toString()}';
+    } else {
+      return 'General Notes';
+    }
+  }
+
+  String get itemsTitle {
+    if (orderItems.isNotEmpty) {
+      return 'Items x ${orderItems.length.toString()}';
+    } else {
+      return 'Items';
+    }
+  }
+
+  List<String> get orderedTimes {
+    return (statuses
+            .where((element) => element.status == OrderSubStatusType.ordered))
+        .toList()
+        .map((e) => Formatters.timePresenter.format(e.createdAt))
+        .toList();
+  }
+
+  List<String> get deliveredTimes {
+    return (statuses
+            .where((element) => element.status == OrderSubStatusType.delivered))
+        .toList()
+        .map((e) => Formatters.timePresenter.format(e.createdAt))
+        .toList();
+  }
+
+  List<String> get closedTimes {
+    return (statuses
+            .where((element) => element.status == OrderSubStatusType.closed))
+        .toList()
+        .map((e) => Formatters.timePresenter.format(e.createdAt))
+        .toList();
+  }
+
+  bool get hasNewItems {
+    final temp =
+        orderItems.firstWhereOrNull((element) => element.isRead == false);
+    return temp != null;
+  }
+
+  bool get hasNewNotes {
+    final temp = notes.firstWhereOrNull((element) => element.isRead == false);
+    return temp != null;
+  }
+}
+
+extension OrderDummyData on AppOrder {
+  static List<AppOrder> dummyData() {
     const dummy = [
       {
         "id": 195,
@@ -303,11 +311,11 @@ class Order {
       }
     ];
 
-    final temp = dummy.map((e) => Order.fromMap(e)).toList();
+    final temp = dummy.map((e) => AppOrder.fromMap(e)).toList();
     return temp;
   }
 
-  static Order details() {
+  static AppOrder details() {
     const dummy = {
       "id": 196,
       "order_number": "12",
@@ -406,7 +414,7 @@ class Order {
       "updated_at2": "2022-12-20T07:44:38.000000Z"
     };
 
-    final order = Order.fromMap(dummy);
+    final order = AppOrder.fromMap(dummy);
     return order;
   }
 }

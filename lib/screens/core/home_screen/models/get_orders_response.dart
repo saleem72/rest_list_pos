@@ -11,7 +11,7 @@ class GetOrdersResponse implements ApiReponse<OredersList> {
   int code;
 
   @override
-  List<Order>? data;
+  List<AppOrder>? data;
 
   @override
   String? message;
@@ -50,7 +50,7 @@ class GetOrdersResponse implements ApiReponse<OredersList> {
     final proList = map['data'];
     return GetOrdersResponse(
       data: proList != null
-          ? List<Order>.from(proList.map((x) => Order.fromMap(x)))
+          ? List<AppOrder>.from(proList.map((x) => AppOrder.fromMap(x)))
           : null,
       code: map['code'] as int,
       message: map['message'] as String?,

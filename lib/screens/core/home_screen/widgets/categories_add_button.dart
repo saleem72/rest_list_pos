@@ -24,7 +24,7 @@ class CategoriesAddButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Icon(
           icon,
-          color: Theme.of(context).primaryColor, // Color(0xFFE7A968),E7A968
+          color: Theme.of(context).primaryColor,
           size: 16,
         ),
       ),
