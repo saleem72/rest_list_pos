@@ -71,6 +71,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView>
           context.read<OrdersBloc>().add(OrdersBlocClearActiveOrder());
           if (gotoAddItem) {
             context
+                .read<OrdersBloc>()
+                .add(OrdersBlocSetOrderToEdit(order: widget.order));
+            context
                 .read<DashboardBloc>()
                 .add(DashboardAddNewItem(order: widget.order));
           }

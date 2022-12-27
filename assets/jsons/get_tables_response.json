@@ -17,6 +17,24 @@
             },
             "waiter": null,
             "is_supervised": false
+        },
+        {
+            "id": 32,
+            "name": "Table 3",
+            "min_seats": 1,
+            "max_seats": 1,
+            "status": "busy",
+            "qr": "https://restlist.app/api_dev/storage/table/qrs/1670764935f54tO5WV22.svg",
+            "qr_code": "rEeNUj",
+            "qr_url": "http://97.74.86.234:8080/items?code=pizza-hutCFYqc&table_code=31",
+            "created_at": "2022-12-11T13:22:15.000000Z",
+            "updated_at": "2022-12-13T12:15:23.000000Z",
+            "restaurant": {
+                "id": 18,
+                "name": "Pizza Hut"
+            },
+            "waiter": null,
+            "is_supervised": false
         }
     ],
     "status": true,

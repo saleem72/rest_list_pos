@@ -16,6 +16,10 @@ class DashboardState extends Equatable {
     this.orders = const [],
     this.selectedPage = HomeSelectedPage.menu,
     this.selectedOrder,
+    this.tables = const [],
+    this.waiters = const [],
+    // this.taxes = const [],
+    this.showTaxDialog = false,
   });
 
   final AppUser? user;
@@ -30,6 +34,11 @@ class DashboardState extends Equatable {
   final List<AppOrder> orders;
   final HomeSelectedPage selectedPage;
   final AppOrder? selectedOrder;
+  final List<RestaurantTable> tables;
+  final List<Waiter> waiters;
+  // final List<Tax> taxes;
+  final bool showTaxDialog;
+
   @override
   List<Object?> get props => [
         user,
@@ -43,6 +52,11 @@ class DashboardState extends Equatable {
         activeProduct,
         selectedPage,
         selectedOrder,
+        waiters,
+        orders,
+        tables,
+        // taxes,
+        showTaxDialog,
       ];
 
   DashboardState copyWith({
@@ -58,6 +72,10 @@ class DashboardState extends Equatable {
     List<AppOrder>? orders,
     HomeSelectedPage? selectedPage,
     AppOrder? selectedOrder,
+    List<RestaurantTable>? tables,
+    List<Waiter>? waiters,
+    // List<Tax>? taxes,
+    bool? showTaxDialog,
   }) {
     return DashboardState(
       user: user ?? this.user,
@@ -72,23 +90,32 @@ class DashboardState extends Equatable {
       orders: orders ?? this.orders,
       selectedPage: selectedPage ?? this.selectedPage,
       selectedOrder: selectedOrder ?? this.selectedOrder,
+      tables: tables ?? this.tables,
+      waiters: waiters ?? this.waiters,
+      // taxes: taxes ?? this.taxes,
+      showTaxDialog: showTaxDialog ?? this.showTaxDialog,
     );
   }
 
   DashboardState clearError() {
     return DashboardState(
-        user: user,
-        isLoading: isLoading,
-        activeRestaurant: activeRestaurant,
-        failure: null,
-        categories: categories,
-        activeCatgory: activeCatgory,
-        activeSubCatgory: activeSubCatgory,
-        products: products,
-        activeProduct: activeProduct,
-        orders: orders,
-        selectedPage: selectedPage,
-        selectedOrder: selectedOrder);
+      user: user,
+      isLoading: isLoading,
+      activeRestaurant: activeRestaurant,
+      failure: null,
+      categories: categories,
+      activeCatgory: activeCatgory,
+      activeSubCatgory: activeSubCatgory,
+      products: products,
+      activeProduct: activeProduct,
+      orders: orders,
+      selectedPage: selectedPage,
+      selectedOrder: selectedOrder,
+      waiters: waiters,
+      tables: tables,
+      // taxes: taxes,
+      showTaxDialog: showTaxDialog,
+    );
   }
 
   DashboardState clearActiveProduct() {
@@ -105,6 +132,10 @@ class DashboardState extends Equatable {
       orders: orders,
       selectedPage: selectedPage,
       selectedOrder: selectedOrder,
+      waiters: waiters,
+      tables: tables,
+      // taxes: taxes,
+      showTaxDialog: showTaxDialog,
     );
   }
 
@@ -118,10 +149,14 @@ class DashboardState extends Equatable {
       activeCatgory: activeCatgory,
       activeSubCatgory: activeSubCatgory,
       products: products,
-      activeProduct: null,
+      activeProduct: activeProduct,
       orders: orders,
       selectedPage: selectedPage,
       selectedOrder: null,
+      waiters: waiters,
+      tables: tables,
+      // taxes: taxes,
+      showTaxDialog: showTaxDialog,
     );
   }
 }

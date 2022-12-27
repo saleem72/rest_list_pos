@@ -28,6 +28,26 @@ class DashboardSetActiveRestaurant extends DashboardEvent {
   List<Object> get props => [restaurant];
 }
 
+class DashboardSetCategories extends DashboardEvent {
+  final List<ProductCategory> categories;
+  const DashboardSetCategories({
+    required this.categories,
+  });
+
+  @override
+  List<Object> get props => [categories];
+}
+
+class DashboardAddFailure extends DashboardEvent {
+  final Failure failure;
+  const DashboardAddFailure({
+    required this.failure,
+  });
+
+  @override
+  List<Object> get props => [failure];
+}
+
 class DashBoardSetActiveCategory extends DashboardEvent {
   final ProductCategory category;
 
@@ -102,3 +122,42 @@ class DashboardAddNewItem extends DashboardEvent {
   @override
   List<Object> get props => [order];
 }
+
+class DashboardAddOrders extends DashboardEvent {
+  final List<AppOrder> orders;
+
+  const DashboardAddOrders({
+    required this.orders,
+  });
+
+  @override
+  List<Object> get props => [orders];
+}
+
+class DashboardAddTables extends DashboardEvent {
+  final List<RestaurantTable> tables;
+
+  const DashboardAddTables({
+    required this.tables,
+  });
+
+  @override
+  List<Object> get props => [tables];
+}
+
+class DashboardAddWaiters extends DashboardEvent {
+  final List<Waiter> waiters;
+
+  const DashboardAddWaiters({
+    required this.waiters,
+  });
+
+  @override
+  List<Object> get props => [waiters];
+}
+
+// class DashboardGetTaxes extends DashboardEvent {}
+
+class DashboardShowTaxDialog extends DashboardEvent {}
+
+class DashboardHideTaxDialog extends DashboardEvent {}

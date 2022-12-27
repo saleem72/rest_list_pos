@@ -1,10 +1,14 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:rest_list_pos/models/product_category.dart';
+import 'package:rest_list_pos/models/tax.dart';
 
 import '../../../../models/app_user/app_user.dart';
 import '../../../../models/failure.dart';
-import '../models/categories_response.dart';
+import '../../../../models/order.dart';
+import '../../../../models/restaurant_table.dart';
+import '../../../../models/waiter.dart';
 import '../../../../models/requests_bodies/get_product_body.dart';
 import '../../../../models/product.dart';
 import '../service/dashboard_service.dart';
@@ -14,9 +18,15 @@ abstract class DashboardRepository {
   AppUser? get data;
 
   Future<Either<Failure, AppUser>> getData();
-  Future<Either<Failure, CategoriesList>> getCategories(int restaurantId);
+  Future<Either<Failure, List<ProductCategory>>> getCategories(
+      int restaurantId);
   Future<Either<Failure, ProductsList>> getProduct(GetProductBody model);
   setUser(AppUser user);
+
+  Future<Either<Failure, TablesList>> getTables(int restaurantId);
+  Future<Either<Failure, WaitersList>> getWaiters(int restaurantId);
+  Future<Either<Failure, OredersList>> getOrders(int restaurantId);
+  Future<Either<Failure, List<Tax>>> getTaxes(int resturantId);
 }
 
 class DashboardRepositoryImpl implements DashboardRepository {
@@ -67,7 +77,7 @@ class DashboardRepositoryImpl implements DashboardRepository {
   }
 
   @override
-  Future<Either<Failure, CategoriesList>> getCategories(
+  Future<Either<Failure, List<ProductCategory>>> getCategories(
       int restaurantId) async {
     final result = service.getCategories(restaurantId);
     return result;
@@ -76,6 +86,30 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<Either<Failure, ProductsList>> getProduct(GetProductBody model) {
     final result = service.getProduct(model);
+    return result;
+  }
+
+  @override
+  Future<Either<Failure, TablesList>> getTables(int restaurantId) async {
+    final tablesResult = await service.getTables(restaurantId);
+    return tablesResult;
+  }
+
+  @override
+  Future<Either<Failure, WaitersList>> getWaiters(int restaurantId) async {
+    final waitersResult = await service.getWaiters(restaurantId);
+    return waitersResult;
+  }
+
+  @override
+  Future<Either<Failure, OredersList>> getOrders(int restaurantId) async {
+    final orderssResult = await service.getOrders(restaurantId);
+    return orderssResult;
+  }
+
+  @override
+  Future<Either<Failure, List<Tax>>> getTaxes(int resturantId) async {
+    final result = await service.getTaxes(resturantId);
     return result;
   }
 }

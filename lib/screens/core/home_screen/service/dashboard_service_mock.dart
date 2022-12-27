@@ -2,16 +2,18 @@
 //
 
 import 'package:dartz/dartz.dart';
+import 'package:rest_list_pos/models/apis_related/api_reponse.dart';
+import 'package:rest_list_pos/models/order.dart';
+import 'package:rest_list_pos/models/restaurant_table.dart';
+import 'package:rest_list_pos/models/tax.dart';
+import 'package:rest_list_pos/models/waiter.dart';
 
 import '../../../../helpers/jsons.dart';
 import '../../../../models/app_user/app_user.dart';
 import '../../../../models/failure.dart';
-import '../../../../models/apis_related/base_service.dart';
 import '../../../../models/product.dart';
+import '../../../../models/product_category.dart';
 import '../../../../models/requests_bodies/get_product_body.dart';
-import '../models/categories_response.dart';
-import '../models/get_product_response.dart';
-import '../models/get_user_response.dart';
 import 'dashboard_service.dart';
 
 class DashboardServiceMock implements DashboardService {
@@ -21,24 +23,32 @@ class DashboardServiceMock implements DashboardService {
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(
           JsonApiResponse.getUserSuccessResponse);
-      final loginResponse = GetUserResponse.fromMap(jsonResponse);
-      final result = BaseService.handleResponse<AppUser>(loginResponse);
-      return result;
+      final baseResponse = BaseResponse<AppUser>.fromMap(
+          jsonResponse, (data) => AppUser.fromJson(data));
+
+      return baseResponse.result();
+      // final loginResponse = GetUserResponse.fromMap(jsonResponse);
+      // final result = BaseService.handleResponse<AppUser>(loginResponse);
+      // return result;
+
     } catch (ex) {
       return left(Failure(message: ex.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, CategoriesList>> getCategories(
+  Future<Either<Failure, List<ProductCategory>>> getCategories(
       int restaurantId) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(
           JsonApiResponse.getCategoriesResponse);
-      final loginResponse = CategoriesResponse.fromJson(jsonResponse);
-      final result = BaseService.handleResponse<CategoriesList>(loginResponse);
-      return result;
+
+      final BaseListResponse<ProductCategory> baseListResponse =
+          BaseListResponse.fromMap(jsonResponse,
+              (data) => data.map((e) => ProductCategory.fromJson(e)).toList());
+
+      return baseListResponse.result();
     } catch (ex) {
       return left(Failure(message: ex.toString()));
     }
@@ -50,9 +60,77 @@ class DashboardServiceMock implements DashboardService {
     try {
       final jsonResponse = await JsonApiResponse.loadJsonData(
           JsonApiResponse.getProductsResponse);
-      final loginResponse = GetProductResponse.fromMap(jsonResponse);
-      final result = BaseService.handleResponse<ProductsList>(loginResponse);
-      return result;
+
+      final baseListResponse = BaseListResponse<Product>.fromMap(
+        jsonResponse,
+        (data) => data.map((e) => Product.fromJson(e)).toList(),
+      );
+      return baseListResponse.result();
+    } catch (ex) {
+      return left(Failure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OredersList>> getOrders(int restaurantId) async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    try {
+      final jsonResponse =
+          await JsonApiResponse.loadJsonData(JsonApiResponse.getOrdersResponse);
+      final baseListResponse = BaseListResponse<AppOrder>.fromMap(
+        jsonResponse,
+        (data) => data.map((e) => AppOrder.fromMap(e)).toList(),
+      );
+      return baseListResponse.result();
+    } catch (ex) {
+      return left(Failure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TablesList>> getTables(int restaurantId) async {
+    await Future<void>.delayed(const Duration(seconds: 2));
+    try {
+      final jsonResponse =
+          await JsonApiResponse.loadJsonData(JsonApiResponse.getTablesResponse);
+
+      final baseListResponse = BaseListResponse<RestaurantTable>.fromMap(
+        jsonResponse,
+        (data) => data.map((e) => RestaurantTable.fromMap(e)).toList(),
+      );
+      return baseListResponse.result();
+    } catch (ex) {
+      return left(Failure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, WaitersList>> getWaiters(int restaurantId) async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    try {
+      final jsonResponse = await JsonApiResponse.loadJsonData(
+          JsonApiResponse.getWaitersResponse);
+      final baseListResponse = BaseListResponse<Waiter>.fromMap(
+        jsonResponse,
+        (data) => data.map((e) => Waiter.fromMap(e)).toList(),
+      );
+      return baseListResponse.result();
+    } catch (ex) {
+      return left(Failure(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Tax>>> getTaxes(int resturantId) async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    try {
+      final jsonResponse =
+          await JsonApiResponse.loadJsonData(JsonApiResponse.getTaxesResponse);
+      final baseListResponse = BaseListResponse<Tax>.fromMap(
+        jsonResponse,
+        (data) => data.map((e) => Tax.fromMap(e)).toList(),
+      );
+      return baseListResponse.result();
     } catch (ex) {
       return left(Failure(message: ex.toString()));
     }

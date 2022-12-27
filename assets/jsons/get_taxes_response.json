@@ -1,0 +1,15 @@
+{
+    "data": [
+        {
+            "id": 8,
+            "name": "Something",
+            "type": "percentage",
+            "value": 8
+        }
+    ],
+    "status": true,
+    "message": null,
+    "code": 200,
+    "paginate": null,
+    "whatsapp_message": null
+}

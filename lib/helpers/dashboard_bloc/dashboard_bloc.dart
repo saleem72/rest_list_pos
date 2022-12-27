@@ -9,6 +9,9 @@ import '../../../../models/restaurant/restaurant.dart';
 import '../../models/failure.dart';
 import '../../models/order.dart';
 import '../../models/requests_bodies/get_product_body.dart';
+import '../../models/restaurant_table.dart';
+import '../../models/tax.dart';
+import '../../models/waiter.dart';
 import '../../screens/core/home_screen/repository/dashboard_repository.dart';
 
 part 'dashboard_event.dart';
@@ -18,6 +21,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({
     required this.repository,
   }) : super(const DashboardState()) {
+    on<DashboardUserLoggedIn>(_onUserLoggdIn);
     on<DashboardGetData>(_onGetData);
     on<DashboardSetActiveRestaurant>(_onSetActiveRestaurant);
     on<DashBoardSetActiveCategory>(_onSetActiveCategory);
@@ -26,7 +30,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardSetActiveProduct>(_onSetActiveProduct);
     on<DashboardClearError>(_onClearError);
     on<DashboardClearActiveProduct>(_onClearActiveProduct);
-    on<DashboardUserLoggedIn>(_onUserLoggdIn);
     on<DashboardNextMainCategory>(_onNextMainCategory);
     on<DashboardPreviousMainCategory>(_onPreviousMainCategory);
     on<DashboardNextSubCategory>(_onNextSubCategory);
@@ -34,6 +37,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashboardGoToMenuPage>(_onGoToMenuPage);
     on<DashboardGoToOrdersPage>(_onGoToOrdersPage);
     on<DashboardAddNewItem>(_onAddNewItem);
+    on<DashboardAddFailure>(_onAddFailure);
+    on<DashboardSetCategories>(_onSetCategories);
+    on<DashboardAddOrders>(_onAddOrders);
+    on<DashboardAddTables>(_onAddTables);
+    on<DashboardAddWaiters>(_onAddWaiters);
+    // on<DashboardGetTaxes>(_onGetTaxes);
+    on<DashboardShowTaxDialog>(_onShowTaxDialog);
+    on<DashboardHideTaxDialog>(_onHideTaxDialog);
   }
 
   final DashboardRepository repository;
@@ -64,21 +75,72 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
   }
 
+  _onAddFailure(DashboardAddFailure event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(failure: event.failure));
+  }
+
+  _onSetCategories(DashboardSetCategories event, Emitter<DashboardState> emit) {
+    // add categories event
+    final newState = state.copyWith(categories: event.categories);
+    emit(newState);
+    if (event.categories.isNotEmpty) {
+      add(DashBoardSetActiveCategory(category: event.categories.first));
+    }
+  }
+
   _onSetActiveRestaurant(
       DashboardSetActiveRestaurant event, Emitter<DashboardState> emit) async {
     emit(state.copyWith(activeRestaurant: event.restaurant));
-    final categoriesResult =
-        await repository.getCategories(event.restaurant.id);
+    _getCategories(event.restaurant.id);
+    _getTables(event.restaurant.id);
+    _getWaiters(event.restaurant.id);
+    _getOrders(event.restaurant.id);
+  }
+
+  _getTables(int restaurantId) async {
+    final tablesResult = await repository.getTables(restaurantId);
+    tablesResult.fold(
+      (failure) {
+        add(DashboardAddFailure(failure: failure));
+      },
+      (list) {
+        add(DashboardAddTables(tables: list));
+      },
+    );
+  }
+
+  _getWaiters(int restaurantId) async {
+    final waitersResult = await repository.getWaiters(restaurantId);
+    waitersResult.fold(
+      (failure) {
+        add(DashboardAddFailure(failure: failure));
+      },
+      (list) {
+        add(DashboardAddWaiters(waiters: list));
+      },
+    );
+  }
+
+  _getOrders(int restaurantId) async {
+    final ordersResult = await repository.getOrders(restaurantId);
+    ordersResult.fold(
+      (failure) {
+        add(DashboardAddFailure(failure: failure));
+      },
+      (list) {
+        add(DashboardAddOrders(orders: list));
+      },
+    );
+  }
+
+  _getCategories(int restaurantId) async {
+    final categoriesResult = await repository.getCategories(restaurantId);
     categoriesResult.fold(
       (failure) {
-        emit(state.copyWith(failure: failure));
+        add(DashboardAddFailure(failure: failure));
       },
       (data) {
-        final newState = state.copyWith(categories: data);
-        emit(newState);
-        if (data.isNotEmpty) {
-          add(DashBoardSetActiveCategory(category: data.first));
-        }
+        add(DashboardSetCategories(categories: data));
       },
     );
   }
@@ -197,5 +259,38 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   _onAddNewItem(DashboardAddNewItem event, Emitter<DashboardState> emit) {
     emit(state.copyWith(selectedPage: HomeSelectedPage.menu));
+  }
+
+  _onAddOrders(DashboardAddOrders event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(orders: event.orders));
+  }
+
+  _onAddTables(DashboardAddTables event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(tables: event.tables));
+  }
+
+  _onAddWaiters(DashboardAddWaiters event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(waiters: event.waiters));
+  }
+
+  // _onGetTaxes(DashboardGetTaxes event, Emitter<DashboardState> emit) async {
+  //   final result = await repository.getTaxes(state.activeRestaurant?.id ?? 0);
+  //   result.fold(
+  //     (failure) {
+  //       emit(state.copyWith(failure: failure));
+  //     },
+  //     (list) {
+  //       emit(state.copyWith(taxes: list));
+  //     },
+  //   );
+  // }
+
+  _onShowTaxDialog(DashboardShowTaxDialog event, Emitter<DashboardState> emit) {
+    // add(DashboardGetTaxes());
+    emit(state.copyWith(showTaxDialog: true));
+  }
+
+  _onHideTaxDialog(DashboardHideTaxDialog event, Emitter<DashboardState> emit) {
+    emit(state.copyWith(showTaxDialog: false));
   }
 }

@@ -5,10 +5,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../../helpers/constants.dart';
+import '../../../../models/apis_related/api_reponse.dart';
 import '../../../../models/failure.dart';
-import '../../../../models/apis_related/base_service.dart';
 import '../models/login_data.dart';
-import '../models/login_response.dart';
 import 'login_service.dart';
 
 class LoginServiceImpl implements LoginService {
@@ -26,10 +25,13 @@ class LoginServiceImpl implements LoginService {
       final response = await client.post(uri, body: data);
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
-      final loginResponse = LoginResponse.fromJson(jsonResponse);
-      return BaseService.handleResponse(loginResponse);
+      final BaseResponse<LoginData> baseResponse = BaseResponse.fromMap(
+        jsonResponse,
+        (data) => LoginData.fromMap(data),
+      );
+      return baseResponse.result();
     } catch (ex) {
-      return left(BaseService.handleException(ex));
+      return left(Failure(message: ex.toString()));
     }
   }
 }

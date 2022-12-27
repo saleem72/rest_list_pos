@@ -327,9 +327,9 @@ extension OrderDummyData on AppOrder {
       "table_id": 31,
       "table_name": "r",
       "restaurant_id": 18,
-      "staff_id": null,
+      "staff_id": 179,
       "is_read": 0,
-      "staff_name": 'Tahseen',
+      "staff_name": 'new staff 01',
       "order_details": [
         {
           "id": 706,

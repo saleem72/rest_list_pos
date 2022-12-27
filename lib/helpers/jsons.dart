@@ -14,6 +14,9 @@ class JsonApiResponse {
   static const getOrdersResponse = '${_path}get_orders_response.json';
   static const getOrdersDetailsResponse =
       '${_path}get_order_details_response.json';
+  static const getTablesResponse = '${_path}get_tables_response.json';
+  static const getWaitersResponse = '${_path}get_waiters_response.json';
+  static const getTaxesResponse = '${_path}get_taxes_response.json';
 
   static Future<Map<String, dynamic>> loadJsonData(String file) async {
     var jsonText = await rootBundle.loadString(file);

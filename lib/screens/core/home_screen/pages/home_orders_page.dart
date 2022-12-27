@@ -3,15 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_list_pos/helpers/formmaters.dart';
-import 'package:rest_list_pos/screens/core/home_screen/models/get_order_details_response.dart';
 import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
-import '../../../../helpers/jsons.dart';
+import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import '../../../../helpers/styling/styling.dart';
-import '../../../../models/apis_related/base_service.dart';
 import '../../../../models/order.dart';
 import '../../../../models/order_status.dart';
-import '../models/get_orders_response.dart';
 
 class HomeOrdersPage extends StatelessWidget {
   const HomeOrdersPage({Key? key}) : super(key: key);
@@ -30,9 +28,7 @@ class HomeOrdersPage extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: OrdersTable(
-                orders: OrderDummyData.dummyData()
-                  ..addAll(OrderDummyData.dummyData())),
+            child: const PosibbleOrdersTable(),
           ),
         ),
       ],
@@ -63,7 +59,9 @@ class HomeOrdersPage extends StatelessWidget {
                 ),
                 // grey_settings
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () => context
+                      .read<DashboardBloc>()
+                      .add(DashboardShowTaxDialog()),
                   icon: SizedBox(
                     width: 24,
                     height: 24,
@@ -84,39 +82,7 @@ class HomeOrdersPage extends StatelessWidget {
     );
   }
 
-  _callWaiter(BuildContext context) async {
-    try {
-      final jsonResponse =
-          await JsonApiResponse.loadJsonData(JsonApiResponse.getOrdersResponse);
-      final loginResponse = GetOrdersResponse.fromMap(jsonResponse);
-      final result = BaseService.handleResponse<OredersList>(loginResponse);
-      result.fold(
-        (failure) {
-          print(failure);
-        },
-        (list) {
-          print(list);
-        },
-      );
-
-      final jsonDetailsResponse = await JsonApiResponse.loadJsonData(
-          JsonApiResponse.getOrdersDetailsResponse);
-      final detailsResponse =
-          GetOrderDetailsResponse.fromMap(jsonDetailsResponse);
-      final detailsResult =
-          BaseService.handleResponse<AppOrder>(detailsResponse);
-      detailsResult.fold(
-        (failure) {
-          print(failure);
-        },
-        (list) {
-          print(list);
-        },
-      );
-    } catch (ex) {
-      print(ex.toString());
-    }
-  }
+  _callWaiter(BuildContext context) async {}
 
   Container _sreachTextField(BuildContext context) {
     return Container(
@@ -163,6 +129,39 @@ class HomeOrdersPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class PosibbleOrdersTable extends StatelessWidget {
+  const PosibbleOrdersTable({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return state.orders.isNotEmpty
+            ? OrdersTable(orders: state.orders)
+            : Column(
+                children: [
+                  for (int i = 0; i < 4; i++)
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        height: 44,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    )
+                ],
+              );
+      },
     );
   }
 }
@@ -286,13 +285,13 @@ class OrdersTable extends StatelessWidget {
           child: Table(
             // border: TableBorder.all(),
             columnWidths: const <int, TableColumnWidth>{
-              0: IntrinsicColumnWidth(),
-              1: FlexColumnWidth(),
+              0: FixedColumnWidth(75),
+              1: IntrinsicColumnWidth(),
               2: FlexColumnWidth(),
               3: FlexColumnWidth(),
               4: FlexColumnWidth(),
-              5: FlexColumnWidth(),
-              6: FlexColumnWidth(),
+              5: FixedColumnWidth(100),
+              6: FixedColumnWidth(100),
             },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             // children:

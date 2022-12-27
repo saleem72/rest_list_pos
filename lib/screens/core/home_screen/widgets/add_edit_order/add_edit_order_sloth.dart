@@ -12,14 +12,6 @@ class AddEditOrderSloth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: double.infinity,
-        height: double.infinity,
-        child: Lottie.asset(LottieAssets.sloth),
-      ),
-    );
+    return Lottie.asset(LottieAssets.sloth);
   }
 }

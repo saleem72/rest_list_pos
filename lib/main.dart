@@ -21,7 +21,7 @@ void main() async {
   runApp(const MyApp());
   doWhenWindowReady(() {
     const initialSize = Size(800, 600);
-    // appWindow.size = initialSize;
+    appWindow.size = const Size(1200, 800);
     // appWindow.
     appWindow.minSize = initialSize;
     appWindow.title = 'Restlist POS';

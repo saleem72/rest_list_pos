@@ -57,11 +57,6 @@ class Tax {
     );
   }
 
-  String toJson() => convert.json.encode(toMap());
-
-  factory Tax.fromJson(String source) =>
-      Tax.fromMap(convert.json.decode(source) as Map<String, dynamic>);
-
   @override
   String toString() {
     return 'Tax(name: $name, type: ${type.title}, value: $value)';

@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
+import '../orders_bloc/orders_bloc.dart';
 import 'add_edit_order/add_new_order_view.dart';
-import 'product_details.dart';
+import 'add_edit_order/order_odification_view.dart';
 
 // AddEditOrderView
 class AddEditOrderView extends StatelessWidget {
@@ -13,12 +13,14 @@ class AddEditOrderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
-      builder: (context, state) {
-        return state.activeProduct == null
-            ? const AddNewOrderView()
-            : ProductDetails(product: state.activeProduct!);
-      },
-    );
+    // return BlocBuilder<OrdersBloc, OrdersState>(
+    //   builder: (context, state) {
+    //     return state.orderToEdit == null
+    //         ? const AddNewOrderView()
+    //         : OrderModificationView(order: state.orderToEdit!);
+    //   },
+    // );
+
+    return const AddNewOrderView();
   }
 }
