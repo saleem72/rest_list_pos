@@ -2,16 +2,18 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:rest_list_pos/models/order_note.dart';
+import 'package:rest_list_pos/models/order_status.dart';
 
 class OrderItem extends Equatable {
   final int id;
   final int orderId;
   final int productId;
   final String productName;
+  final String productImage;
   final String productSize;
   final int quantity;
   final double price;
-  final String status;
+  final OrderStatus status;
   final List<OrderNote> note;
   final bool isRead;
   final DateTime createdAt;
@@ -34,6 +36,7 @@ class OrderItem extends Equatable {
     required this.updatedAt,
     required this.categoryName,
     required this.parentCategoryName,
+    this.productImage = '',
   });
 
   @override
@@ -45,10 +48,11 @@ class OrderItem extends Equatable {
       'order_id': orderId,
       'product_id': productId,
       'product_name': productName,
+      'product_image': productImage,
       'product_size': productSize,
       'quantity': quantity,
       'price': price,
-      'status': status,
+      'status': status.toString(),
       'note': note.map((x) => x.toMap()).toList(),
       'is_read': isRead,
       'created_at': createdAt.millisecondsSinceEpoch,
@@ -65,10 +69,14 @@ class OrderItem extends Equatable {
       orderId: map['order_id'] as int,
       productId: map['product_id'] as int,
       productName: map['product_name'] as String,
+      productImage:
+          map['product_image'] == null ? '' : map['product_image'] as String,
       productSize: map['product_size'] as String,
       quantity: map['quantity'] as int,
-      price: map['price'] as double,
-      status: map['status'] as String,
+      price: (map['price'] is int)
+          ? (map['price'] as int).toDouble()
+          : map['price'] as double,
+      status: OrderStatus.fromString(map['status'] as String),
       note: noteList == null
           ? []
           : List<OrderNote>.from(

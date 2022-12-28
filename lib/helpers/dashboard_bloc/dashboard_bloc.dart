@@ -27,9 +27,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<DashBoardSetActiveCategory>(_onSetActiveCategory);
     on<DashBoardSetActiveSubCategory>(_onSetActiveSubCategory);
     on<DashboardGetProductForCategory>(_onGetProductForCategory);
-    on<DashboardSetActiveProduct>(_onSetActiveProduct);
+    // on<DashboardClearActiveProduct>(_onClearActiveProduct);
+    // on<DashboardSetActiveProduct>(_onSetActiveProduct);
     on<DashboardClearError>(_onClearError);
-    on<DashboardClearActiveProduct>(_onClearActiveProduct);
     on<DashboardNextMainCategory>(_onNextMainCategory);
     on<DashboardPreviousMainCategory>(_onPreviousMainCategory);
     on<DashboardNextSubCategory>(_onNextSubCategory);
@@ -184,18 +184,18 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     );
   }
 
-  _onSetActiveProduct(
-      DashboardSetActiveProduct event, Emitter<DashboardState> emit) {
-    emit(state.copyWith(activeProduct: event.product));
-  }
+  // _onClearActiveProduct(
+  //     DashboardClearActiveProduct event, Emitter<DashboardState> emit) {
+  //   emit(state.clearActiveProduct());
+  // }
+
+  // _onSetActiveProduct(
+  //     DashboardSetActiveProduct event, Emitter<DashboardState> emit) {
+  //   emit(state.copyWith(activeProduct: event.product));
+  // }
 
   _onClearError(DashboardClearError event, Emitter<DashboardState> emit) {
     emit(state.clearError());
-  }
-
-  _onClearActiveProduct(
-      DashboardClearActiveProduct event, Emitter<DashboardState> emit) {
-    emit(state.clearActiveProduct());
   }
 
   _onNextMainCategory(

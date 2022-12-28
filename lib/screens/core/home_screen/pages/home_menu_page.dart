@@ -1,8 +1,7 @@
 //
 
 import 'package:flutter/material.dart';
-import '../../../../helpers/localization/language_constants.dart';
-import '../../../../helpers/styling/styling.dart';
+
 import '../home_widgets.dart';
 
 class HomeMenuPage extends StatelessWidget {

@@ -32,17 +32,13 @@ class ProductsListView extends StatelessWidget {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
           ),
-          itemCount: products.length + 1,
+          itemCount: products.length,
           itemBuilder: (context, index) {
-            if (index == 0) {
-              return _addNewDish(context);
-            } else {
-              final product = products[index - 1];
-              return ProductCard(
-                product: product,
-                isActive: product.id == activeProduct?.id,
-              );
-            }
+            final product = products[index];
+            return ProductCard(
+              product: product,
+              isActive: product.id == activeProduct?.id,
+            );
           }),
     );
   }
@@ -70,8 +66,9 @@ class ProductsListView extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: GestureDetector(
-        onTap: () =>
-            context.read<DashboardBloc>().add(DashboardClearActiveProduct()),
+        // onTap: () =>
+        //     context.read<DashboardBloc>().add(DashboardClearActiveProduct()),
+        onTap: () {},
         child: Container(
           margin: const EdgeInsets.all(8),
           child: Column(

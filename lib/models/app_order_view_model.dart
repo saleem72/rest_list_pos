@@ -3,9 +3,13 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:rest_list_pos/helpers/formmaters.dart';
+import 'package:rest_list_pos/models/order_status.dart';
+import 'package:rest_list_pos/models/product.dart';
 
 import 'order.dart';
 import 'order/order_item.dart';
+import 'tax.dart';
 
 class AppOrderViewModel extends Equatable {
   final AppOrder? order;
@@ -40,6 +44,7 @@ class AppOrderViewModel extends Equatable {
   factory AppOrderViewModel.fromModel(AppOrder model) {
     return AppOrderViewModel(
       isNew: false,
+      order: model,
       tableId: model.tableId,
       tableName: model.tableName,
       waiterId: model.staffId ?? 0,
@@ -51,6 +56,24 @@ class AppOrderViewModel extends Equatable {
       id: model.id,
       orderItems:
           model.orderItems.map((e) => OrderItemViewModel.fromModel(e)).toList(),
+      version: 1,
+    );
+  }
+
+  AppOrderViewModel addProduct(Product product) {
+    return AppOrderViewModel(
+      isNew: false,
+      order: order,
+      tableId: tableId,
+      tableName: tableName,
+      waiterId: waiterId,
+      waiterName: waiterName,
+      orderNumber: orderNumber,
+      subTotal: subTotal,
+      taxAmount: taxAmount,
+      total: total,
+      id: id,
+      orderItems: orderItems..add(OrderItemViewModel.fromProduct(product)),
       version: 1,
     );
   }
@@ -101,6 +124,30 @@ class AppOrderViewModel extends Equatable {
       version: version + 1,
     );
   }
+
+  double get calcSubTotal {
+    final sum = orderItems
+        .map((e) => e.price * e.quantity)
+        .toList()
+        .fold<double>(0, (previousValue, element) => previousValue + element);
+    return sum;
+  }
+
+  double get calcTax {
+    final sub = calcSubTotal;
+    final taxSum = order?.taxes
+            .map(
+                (e) => e.type == TaxType.amount ? e.value : e.value * sub / 100)
+            .toList()
+            .fold<double>(
+                0, (previousValue, element) => previousValue + element) ??
+        0;
+    return taxSum;
+  }
+
+  double get calcSum {
+    return calcSubTotal + calcTax;
+  }
 }
 
 @immutable
@@ -109,9 +156,13 @@ class OrderItemViewModel extends Equatable {
   final int id;
   final int productId;
   final String productName;
+  final String productImage;
   final String productSize;
   final int quantity;
   final double price;
+  final OrderStatus status;
+
+  bool get isEditable => status == OrderStatus.preparing;
 
   const OrderItemViewModel({
     this.item,
@@ -121,6 +172,8 @@ class OrderItemViewModel extends Equatable {
     required this.productSize,
     required this.quantity,
     required this.price,
+    this.status = OrderStatus.preparing,
+    this.productImage = '',
   });
 
   factory OrderItemViewModel.fromModel(OrderItem model) {
@@ -132,6 +185,21 @@ class OrderItemViewModel extends Equatable {
       productSize: model.productSize,
       quantity: model.quantity,
       price: model.price,
+      status: model.status,
+      productImage: model.productImage,
+    );
+  }
+
+  factory OrderItemViewModel.fromProduct(Product product) {
+    return OrderItemViewModel(
+      id: 0,
+      productId: product.id,
+      productName: product.name,
+      productSize: product.size ?? '',
+      quantity: 1,
+      price: product.price ?? 1,
+      status: OrderStatus.preparing,
+      productImage: product.image ?? '',
     );
   }
 
@@ -143,6 +211,7 @@ class OrderItemViewModel extends Equatable {
         productSize,
         quantity,
         price,
+        status,
       ];
 
   OrderItemViewModel copyWith({
@@ -153,6 +222,8 @@ class OrderItemViewModel extends Equatable {
     String? productSize,
     int? quantity,
     double? price,
+    OrderStatus? status,
+    String? productImage,
   }) {
     return OrderItemViewModel(
       item: item ?? this.item,
@@ -162,6 +233,8 @@ class OrderItemViewModel extends Equatable {
       productSize: productSize ?? this.productSize,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
+      status: status ?? this.status,
+      productImage: productImage ?? this.productImage,
     );
   }
 }

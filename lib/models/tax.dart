@@ -1,17 +1,15 @@
 //
 
-import 'dart:convert' as convert;
-
 enum TaxType {
   percentage,
-  value;
+  amount;
 
   String get title {
     switch (this) {
       case TaxType.percentage:
         return 'Percentage';
-      case TaxType.value:
-        return 'Value';
+      case TaxType.amount:
+        return 'Amount';
     }
   }
 
@@ -19,10 +17,10 @@ enum TaxType {
     switch (title) {
       case 'percentage':
         return TaxType.percentage;
-      case 'value':
-        return TaxType.value;
+      case 'amount':
+        return TaxType.amount;
       default:
-        return TaxType.value;
+        return TaxType.amount;
     }
   }
 }

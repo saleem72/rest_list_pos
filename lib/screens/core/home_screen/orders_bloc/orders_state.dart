@@ -9,23 +9,28 @@ class OrdersState extends Equatable {
     this.selctedOrder,
     this.orderVisibility,
     this.orderToEdit,
+    this.version = 1,
   });
   final AppOrder? selctedOrder;
   final OrderVisibility? orderVisibility;
   final AppOrderViewModel? orderToEdit;
+  final int version;
 
   @override
-  List<Object?> get props => [selctedOrder, orderVisibility, orderToEdit];
+  List<Object?> get props =>
+      [selctedOrder, orderVisibility, orderToEdit, version];
 
   OrdersState copyWith({
     AppOrder? selctedOrder,
     OrderVisibility? orderVisibility,
     AppOrderViewModel? orderToEdit,
+    int? version,
   }) {
     return OrdersState(
       selctedOrder: selctedOrder ?? this.selctedOrder,
       orderVisibility: orderVisibility ?? this.orderVisibility,
       orderToEdit: orderToEdit ?? this.orderToEdit,
+      version: version ?? this.version,
     );
   }
 
@@ -34,6 +39,7 @@ class OrdersState extends Equatable {
       selctedOrder: selctedOrder,
       orderToEdit: orderToEdit,
       orderVisibility: null,
+      version: version,
     );
   }
 }

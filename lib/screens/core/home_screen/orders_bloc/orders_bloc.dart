@@ -2,6 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:rest_list_pos/helpers/dashboard_bloc/dashboard_bloc.dart';
+import 'package:rest_list_pos/helpers/pretty_json.dart';
+import 'package:rest_list_pos/models/product.dart';
+import 'package:rest_list_pos/models/requests_bodies/update_order_body.dart';
 
 import '../../../../models/app_order_view_model.dart';
 import '../../../../models/order.dart';
@@ -20,6 +23,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     on<OrdersBlocSetOrderToEdit>(_onSetOrderToEdit);
     on<OrdersBlocIncreaseAmount>(_onIncreaseAmount);
     on<OrdersBlocDecreaseAmount>(_onDecreaseAmount);
+    on<OrdersBlocSubmit>(_onSubmit);
+    on<OrdersBlocAddNewItem>(_onAddNewItem);
   }
 
   final DashboardBloc _dashboard;
@@ -88,5 +93,43 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     }
 
     emit(state);
+  }
+
+  _onSubmit(OrdersBlocSubmit event, Emitter<OrdersState> emit) {
+    final temp = {
+      "items": [
+        {
+          "id": 1,
+          "product_id": 1,
+          "quantity": 1,
+          "notes_removed_ids": [1, 2],
+          "notes": [
+            {"note": "aaa", "quantity": 2},
+            {"note": "aaa", "quantity": 2}
+          ]
+        }
+      ],
+      "item_removed_ids": [1, 2],
+      "table_id": 2,
+      "notes_removed_ids": [1, 2],
+      "notes": [
+        {"id": 1, "note": "aaa", "quantity": 2},
+        {"note": "aaa", "quantity": 2}
+      ]
+    };
+
+    final model = UpdateOrderBody.fromMap(temp);
+
+    final tempjson = model.toJson();
+    final aaa = PrettyJson.print(tempjson);
+    print(aaa);
+  }
+
+  _onAddNewItem(OrdersBlocAddNewItem event, Emitter<OrdersState> emit) {
+    // final temp = state.orderToEdit?.addProduct(event.product);
+    emit(state.copyWith(
+      orderToEdit: state.orderToEdit?.addProduct(event.product),
+      version: state.version + 1,
+    ));
   }
 }

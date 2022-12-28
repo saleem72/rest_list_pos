@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 
 import '../../../../helpers/styling/styling.dart';
 import '../../../../models/product.dart';
-import '../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product, required this.isActive});
@@ -17,8 +17,10 @@ class ProductCard extends StatelessWidget {
     final formatter = NumberFormat('#,##0.## SYP');
     return GestureDetector(
       onTap: () => context
-          .read<DashboardBloc>()
-          .add(DashboardSetActiveProduct(product: product)),
+          .read<OrdersBloc>()
+          .add(OrdersBlocAddNewItem(product: product)),
+      // .read<DashboardBloc>()
+      // .add(DashboardSetActiveProduct(product: product)),
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(
@@ -57,20 +59,23 @@ class ProductCard extends StatelessWidget {
                   ),
                 ],
               ),
-              product.isAvailable == 1
-                  ? Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 16,
-                        height: 16,
-                        decoration: const BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Tooltip(
+                  message: product.description,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: product.isAvailable == 1
+                          ? Colors.green
+                          : Colors.grey.shade200,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -79,24 +84,36 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _dishBG() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6.0),
-      // child: product.image == null ? Image.asset(Assets.dish) :
-      // NetworkImage(product.image!),
-      child: product.image != null
-          ? Image.network(
-              product.image!,
-              fit: BoxFit.fill,
-            )
-          : product.sliderImage != null
-              ? Image.network(
-                  product.image!,
-                  fit: BoxFit.fill,
-                )
-              : Image.asset(
-                  Assets.dish,
-                  fit: BoxFit.fill,
-                ),
+    // return ClipRRect(
+    //   borderRadius: BorderRadius.circular(6.0),
+    //   // child: product.image == null ? Image.asset(Assets.dish) :
+    //   // NetworkImage(product.image!),
+    //   child: product.image != null
+    //       ? Image.network(
+    //           product.image!,
+    //           fit: BoxFit.fill,
+    //         )
+    //       : product.sliderImage != null
+    //           ? Image.network(
+    //               product.image!,
+    //               fit: BoxFit.fill,
+    //             )
+    //           : Image.asset(
+    //               Assets.dish,
+    //               fit: BoxFit.fill,
+    //             ),
+    // );
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: Colors.purple,
+        borderRadius: BorderRadius.circular(6),
+        image: DecorationImage(
+            image: product.image != null
+                ? Image.network(product.image!).image
+                : Image.asset(Assets.dish).image,
+            fit: BoxFit.cover),
+      ),
     );
   }
 }

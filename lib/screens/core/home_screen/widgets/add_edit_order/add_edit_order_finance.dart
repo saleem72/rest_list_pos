@@ -6,7 +6,6 @@ import 'package:rest_list_pos/models/app_order_view_model.dart';
 import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 
 import '../../../../../helpers/formmaters.dart';
-import '../../../../../models/order.dart';
 
 class AddEditOrderFinance extends StatelessWidget {
   const AddEditOrderFinance({
@@ -51,6 +50,12 @@ class AddEditOrderFinance extends StatelessWidget {
               ),
         ),
         Text(
+          Formatters.currencyFormater.format(order?.calcSum ?? 0),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+        ),
+        Text(
           Formatters.currencyFormater.format(order?.total ?? 0),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
@@ -69,6 +74,10 @@ class AddEditOrderFinance extends StatelessWidget {
           style: Theme.of(context).textTheme.bodySmall,
         ),
         Text(
+          Formatters.currencyFormater.format(order?.calcTax ?? 0),
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        Text(
           Formatters.currencyFormater.format(order?.taxAmount ?? 0),
           style: Theme.of(context).textTheme.bodySmall,
         ),
@@ -82,6 +91,10 @@ class AddEditOrderFinance extends StatelessWidget {
       children: [
         Text(
           'Subtotal',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        Text(
+          Formatters.currencyFormater.format(order?.calcSubTotal ?? 0),
           style: Theme.of(context).textTheme.bodySmall,
         ),
         Text(

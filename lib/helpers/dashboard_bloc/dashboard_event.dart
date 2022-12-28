@@ -87,17 +87,17 @@ class DashboardGetProductForCategory extends DashboardEvent {
   List<Object> get props => [restaurantId, categoryId, page, perPage];
 }
 
-class DashboardSetActiveProduct extends DashboardEvent {
-  final Product product;
-  const DashboardSetActiveProduct({
-    required this.product,
-  });
+// class DashboardSetActiveProduct extends DashboardEvent {
+//   final Product product;
+//   const DashboardSetActiveProduct({
+//     required this.product,
+//   });
 
-  @override
-  List<Object> get props => [product];
-}
+//   @override
+//   List<Object> get props => [product];
+// }
 
-class DashboardClearActiveProduct extends DashboardEvent {}
+// class DashboardClearActiveProduct extends DashboardEvent {}
 
 class DashboardClearError extends DashboardEvent {}
 

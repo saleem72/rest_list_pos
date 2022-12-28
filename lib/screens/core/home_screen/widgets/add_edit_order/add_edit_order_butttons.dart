@@ -1,6 +1,8 @@
 //
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 
 import '../../../../../helpers/styling/styling.dart';
 
@@ -35,7 +37,7 @@ class AddEditOrderButttons extends StatelessWidget {
         const SizedBox(width: 20),
         Expanded(
           child: TextButton(
-            onPressed: () {},
+            onPressed: () => context.read<OrdersBloc>().add(OrdersBlocSubmit()),
             style: TextButton.styleFrom(
               backgroundColor: Pallet.green,
               foregroundColor: Colors.white,

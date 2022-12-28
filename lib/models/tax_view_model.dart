@@ -17,7 +17,7 @@ class TaxViewModel {
     this.tax,
     this.id = 0,
     this.name = '',
-    this.type = TaxType.value,
+    this.type = TaxType.amount,
     this.value = 0,
     this.status = TaxViewModelStatus.created,
   });
@@ -56,7 +56,7 @@ class TaxViewModel {
       tax: tax,
       id: id,
       name: name,
-      type: type == TaxType.percentage ? TaxType.value : TaxType.percentage,
+      type: type == TaxType.percentage ? TaxType.amount : TaxType.percentage,
       value: 0,
       status: status == TaxViewModelStatus.original
           ? TaxViewModelStatus.updated

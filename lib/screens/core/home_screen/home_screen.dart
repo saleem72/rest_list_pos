@@ -287,7 +287,8 @@ class TaxesDialog extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () =>
+              context.read<DashboardBloc>().add(DashboardHideTaxDialog()),
           child: Text(
             'Close',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -484,14 +485,16 @@ class _TaxInputFieldState extends State<TaxInputField> {
         height: 24,
         width: 24,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          color: Pallet.primary,
+        decoration: BoxDecoration(
+          color: Pallet.primary.withOpacity(0.2),
           shape: BoxShape.circle,
         ),
-        child: const Icon(
-          Icons.recycling,
-          size: 12,
-          color: Colors.white,
+        child: Center(
+          child: SizedBox(
+            width: 12,
+            height: 12,
+            child: Image.asset(Assets.refresh),
+          ),
         ),
       ),
     );

@@ -6,10 +6,9 @@ import 'package:rest_list_pos/helpers/formmaters.dart';
 import 'package:rest_list_pos/helpers/styling/assets.dart';
 import 'package:rest_list_pos/helpers/styling/pallet.dart';
 import 'package:rest_list_pos/models/app_order_view_model.dart';
+import 'package:rest_list_pos/models/order_status.dart';
 import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 
-import '../../../../../models/order.dart';
-import '../../../../../models/order/order_item.dart';
 import 'add_edit_order_butttons.dart';
 import 'add_edit_order_finance.dart';
 import 'add_edit_order_sloth.dart';
@@ -189,12 +188,17 @@ class AddEditOrderItemTile extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
-                child: SizedBox(
+                child: Container(
                   width: 100,
                   height: 70,
-                  child: Image.asset(
-                    Assets.dish,
-                    fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                        color: item.isEditable ? Colors.green : Colors.grey,
+                        width: 3),
+                    image: DecorationImage(
+                        image: Image.network(item.productImage).image),
                   ),
                 ),
               ),

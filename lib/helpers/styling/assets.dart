@@ -27,4 +27,5 @@ class Assets {
   static const callWaiter = '${_imagesPath}call_waiter.png';
   static const greySettings = '${_imagesPath}grey_settings.png';
   static const coloredDownArrow = '${_imagesPath}colored_down_arrow.png';
+  static const refresh = '${_imagesPath}refresh.png';
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_list_pos/screens/core/home_screen/orders_bloc/orders_bloc.dart';
 import 'package:rest_list_pos/widgets/app_autocomplete.dart';
+import 'package:rest_list_pos/widgets/app_drop_down_button.dart';
 
 import '../../../../../helpers/dashboard_bloc/dashboard_bloc.dart';
 import '../../../../../helpers/styling/styling.dart';
@@ -114,6 +115,13 @@ class WaitersAutoComplete extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) {
+        final waiterId = context.read<OrdersBloc>().state.orderToEdit?.waiterId;
+        final waiters = state.waiters
+            .map((e) => ObjectTitle(id: e.id, title: e.fullName))
+            .toList();
+        final selectedWaiter = waiterId == null
+            ? null
+            : waiters.firstWhere((element) => element.id == waiterId);
         return Container(
           constraints: const BoxConstraints(
             minHeight: 36,
@@ -127,19 +135,14 @@ class WaitersAutoComplete extends StatelessWidget {
           child: state.waiters.isNotEmpty
               ? Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: AppAutoComplete(
-                      initialValue: context
-                              .read<OrdersBloc>()
-                              .state
-                              .orderToEdit
-                              ?.waiterName ??
-                          '',
-                      hint: 'Waiter',
-                      objectsList: state.waiters
-                          .map((e) => ObjectTitle(id: e.id, title: e.fullName))
-                          .toList(),
-                      onSelected: (waiter) {},
+                    padding: const EdgeInsets.only(left: 8, right: 4),
+                    child: SizedBox(
+                      height: 36,
+                      child: AppDropDownButton(
+                        items: waiters,
+                        selected: selectedWaiter,
+                        onChanged: (item) {},
+                      ),
                     ),
                   ),
                 )
@@ -167,6 +170,14 @@ class TablesAutoComplete extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (context, state) {
+        final selectedTableId =
+            context.read<OrdersBloc>().state.orderToEdit?.tableId;
+        final tables = state.tables
+            .map((e) => ObjectTitle(id: e.id, title: e.name))
+            .toList();
+        final selectedTable = selectedTableId == null
+            ? null
+            : tables.firstWhere((element) => element.id == selectedTableId);
         return Container(
           constraints: const BoxConstraints(
             minHeight: 36,
@@ -178,21 +189,16 @@ class TablesAutoComplete extends StatelessWidget {
             ),
           ),
           child: state.tables.isNotEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: AppAutoComplete(
-                      initialValue: context
-                              .read<OrdersBloc>()
-                              .state
-                              .orderToEdit
-                              ?.tableName ??
-                          '',
-                      hint: 'Table',
-                      objectsList: state.tables
-                          .map((e) => ObjectTitle(id: e.id, title: e.name))
-                          .toList(),
-                      onSelected: (table) {},
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 4),
+                  child: Center(
+                    child: SizedBox(
+                      height: 36,
+                      child: AppDropDownButton(
+                        items: tables,
+                        selected: selectedTable,
+                        onChanged: (item) {},
+                      ),
                     ),
                   ),
                 )

@@ -62,3 +62,15 @@ class OrdersBlocDecreaseAmount extends OrdersEvent {
   @override
   List<Object> get props => [item];
 }
+
+class OrdersBlocSubmit extends OrdersEvent {}
+
+class OrdersBlocAddNewItem extends OrdersEvent {
+  final Product product;
+  const OrdersBlocAddNewItem({
+    required this.product,
+  });
+
+  @override
+  List<Object> get props => [product];
+}
